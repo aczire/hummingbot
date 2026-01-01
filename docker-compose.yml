@@ -1,10 +1,12 @@
 services:
   hummingbot:
     container_name: hummingbot
-    image: hummingbot/hummingbot:latest
-    # build: # Uncomment this build section and comment image to build Hummingbot locally
-    #   context: .
-    #   dockerfile: Dockerfile
+    # image: hummingbot/hummingbot:latest
+    # image: hummingbot/hummingbot:latest_dydx
+    # image: hummingbot/hummingbot:latest_testnet_dydx # docker build -t hummingbot/hummingbot:latest_testnet_dydx .
+    build: # Uncomment this build section and comment image to build Hummingbot locally
+     context: .
+     dockerfile: Dockerfile
     volumes:
       - ./conf:/home/hummingbot/conf
       - ./conf/connectors:/home/hummingbot/conf/connectors
@@ -29,16 +31,16 @@ services:
   #    - CONFIG_FILE_NAME=v2_with_controllers.py
   #    - SCRIPT_CONFIG=conf_v2_with_controllers.yml
 
-  # gateway:
-  #  restart: always
-  #  container_name: gateway
-  #  image: hummingbot/gateway:latest
-  #  ports:
-  #    - "15888:15888"
-  #  volumes:
-  #    - "./gateway-files/conf:/home/gateway/conf"
-  #    - "./gateway-files/logs:/home/gateway/logs"
-  #    - "./certs:/home/gateway/certs"
-  #  environment:
-  #    - GATEWAY_PASSPHRASE=admin
-  #    - DEV=true
+  gateway:
+   restart: always
+   container_name: gateway
+   image: hummingbot/gateway:latest
+   ports:
+     - "15888:15888"
+   volumes:
+     - "./gateway-files/conf:/home/gateway/conf"
+     - "./gateway-files/logs:/home/gateway/logs"
+     - "./certs:/home/gateway/certs"
+   environment:
+     - GATEWAY_PASSPHRASE=admin
+     - DEV=true
