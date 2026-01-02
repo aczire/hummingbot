@@ -73,4 +73,4 @@ class DydxV4PerpetualTestnetConfigMap(BaseConnectorConfigMap):
     model_config = ConfigDict(title="dydx_v4_perpetual_testnet")
 
 
-OTHER_DOMAINS_KEYS = DydxV4PerpetualTestnetConfigMap.model_construct()
+OTHER_DOMAINS_KEYS = {"dydx_v4_perpetual_testnet": DydxV4PerpetualTestnetConfigMap.model_construct()}
