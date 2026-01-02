@@ -36,6 +36,7 @@ class DydxPerpetualV4Client:
         self._private_key = PrivateKey.from_mnemonic(secret_phrase)
         self._dydx_v4_chain_address = dydx_v4_chain_address
         self._connector = connector
+        self._domain = connector.domain()
         self._subaccount_num = subaccount_num
         self.transaction_lock = Lock()
         self.number = 0
@@ -47,15 +48,27 @@ class DydxPerpetualV4Client:
         credentials = grpc.ssl_channel_credentials(
             root_certificates=trusted_certs
         )
+        self._chain_id = CONSTANTS.CHAIN_ID if self._domain == CONSTANTS.DEFAULT_DOMAIN else CONSTANTS.CHAIN_ID_TESTNET
 
-        host_and_port = CONSTANTS.DYDX_V4_AERIAL_CONFIG_URL
+        host_and_port = (
+            CONSTANTS.DYDX_V4_AERIAL_CONFIG_URL
+            if self._domain == CONSTANTS.DEFAULT_DOMAIN
+            else CONSTANTS.DYDX_V4_AERIAL_CONFIG_URL_TESTNET
+        )
         grpc_client = (
             grpc.aio.secure_channel(host_and_port, credentials)
-            if credentials is not None else grpc.aio.insecure_channel(host_and_port)
+            if credentials is not None
+            else grpc.aio.insecure_channel(host_and_port)
+        )
+        query_host_and_port = (
+            CONSTANTS.DYDX_V4_QUERY_AERIAL_CONFIG_URL
+            if self._domain == CONSTANTS.DEFAULT_DOMAIN
+            else CONSTANTS.DYDX_V4_QUERY_AERIAL_CONFIG_URL_TESTNET
         )
         query_grpc_client = (
-            grpc.aio.secure_channel(CONSTANTS.DYDX_V4_QUERY_AERIAL_CONFIG_URL, credentials)
-            if credentials is not None else grpc.aio.insecure_channel(host_and_port)
+            grpc.aio.secure_channel(query_host_and_port, credentials)
+            if credentials is not None
+            else grpc.aio.insecure_channel(host_and_port)
         )
         self.stubBank = bank_query_grpc.QueryStub(grpc_client)
         self.auth_client = AuthGrpcClient(query_grpc_client)
@@ -273,7 +286,7 @@ class DydxPerpetualV4Client:
                 gas_limit=CONSTANTS.TX_GAS_LIMIT,
                 memo=memo,
             )
-            tx.sign(self._private_key, CONSTANTS.CHAIN_ID, number)
+            tx.sign(self._private_key, self._chain_id, number)
             tx.complete()
 
             broadcast_req = BroadcastTxRequest(

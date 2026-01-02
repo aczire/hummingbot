@@ -2,8 +2,7 @@ services:
   hummingbot:
     container_name: hummingbot
     # image: hummingbot/hummingbot:latest
-    # image: hummingbot/hummingbot:latest_dydx
-    # image: hummingbot/hummingbot:latest_testnet_dydx # docker build -t hummingbot/hummingbot:latest_testnet_dydx .
+    image: hummingbot/hummingbot:latest_dydx # docker build -t hummingbot/hummingbot:latest_testnet_dydx .
     build: # Uncomment this build section and comment image to build Hummingbot locally
      context: .
      dockerfile: Dockerfile

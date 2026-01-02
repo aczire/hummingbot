@@ -281,7 +281,10 @@ class DydxV4PerpetualAPIOrderBookDataSource(PerpetualAPIOrderBookDataSource):
 
     async def _connected_websocket_assistant(self) -> WSAssistant:
         ws: WSAssistant = await self._api_factory.get_ws_assistant()
-        await ws.connect(ws_url=CONSTANTS.DYDX_V4_WS_URL, ping_timeout=CONSTANTS.HEARTBEAT_INTERVAL)
+        ws_url = (
+            CONSTANTS.DYDX_V4_WS_URL if self._domain == CONSTANTS.DEFAULT_DOMAIN else CONSTANTS.DYDX_V4_WS_URL_TESTNET
+        )
+        await ws.connect(ws_url=ws_url, ping_timeout=CONSTANTS.HEARTBEAT_INTERVAL)
         return ws
 
     async def _request_order_book_snapshots(self, output: asyncio.Queue):

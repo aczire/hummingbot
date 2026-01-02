@@ -5,7 +5,8 @@ from hummingbot.core.data_type.in_flight_order import OrderState
 # A single source of truth for constant variables related to the exchange
 
 EXCHANGE_NAME = "dydx_v4_perpetual"
-DEFAULT_DOMAIN = "com"
+DEFAULT_DOMAIN = EXCHANGE_NAME
+TESTNET_DOMAIN = "dydx_v4_perpetual_testnet"
 
 API_VERSION = "v4"
 CURRENCY = "USD"
@@ -24,25 +25,26 @@ MAX_ID_BIT_COUNT = 31
 
 # data_source grpc
 DYDX_V4_AERIAL_GRPC_OR_REST_PREFIX = "grpc"
-# DYDX_V4_AERIAL_CONFIG_URL = 'dydx-grpc.publicnode.com:443'
-DYDX_V4_AERIAL_CONFIG_URL = 'oegs-testnet.dydx.exchange:443'
-# DYDX_V4_QUERY_AERIAL_CONFIG_URL = 'dydx-grpc.publicnode.com:443'
-DYDX_V4_QUERY_AERIAL_CONFIG_URL = 'oegs-testnet.dydx.exchange:443'
-# CHAIN_ID = 'dydx-mainnet-1'
-CHAIN_ID = 'dydx-testnet-4'
+DYDX_V4_AERIAL_CONFIG_URL_TESTNET = "dydx-grpc.publicnode.com:443"
+DYDX_V4_AERIAL_CONFIG_URL = "oegs-testnet.dydx.exchange:443"
+DYDX_V4_QUERY_AERIAL_CONFIG_URL_TESTNET = "dydx-grpc.publicnode.com:443"
+DYDX_V4_QUERY_AERIAL_CONFIG_URL = "oegs-testnet.dydx.exchange:443"
+CHAIN_ID_TESTNET = "dydx-mainnet-1"
+CHAIN_ID = "dydx-testnet-4"
 FEE_DENOMINATION = "afet"
 TX_FEE = 0
 TX_GAS_LIMIT = 0
 
-# DYDX_V4_VALIDATOR_REST_BASE_URL = "https://dydx-grpc.publicnode.com:443"
+DYDX_V4_VALIDATOR_REST_BASE_URL_TESTNET = "https://dydx-grpc.publicnode.com:443"
 DYDX_V4_VALIDATOR_REST_BASE_URL = "https://dydx-testnet-api.polkachu.com:443"
 
-# DYDX_V4_INDEXER_REST_BASE_URL = "https://indexer.dydx.trade"
+DYDX_V4_INDEXER_REST_BASE_URL_TESTNET = "https://indexer.dydx.trade"
 DYDX_V4_INDEXER_REST_BASE_URL = "https://indexer.v4testnet.dydx.exchange"
 
-DYDX_V4_REST_URL = "{}/{}".format(DYDX_V4_INDEXER_REST_BASE_URL, API_VERSION)
+DYDX_V4_REST_URL = "{}/{}".format(DYDX_V4_INDEXER_REST_BASE_URL_TESTNET, API_VERSION)
+DYDX_V4_REST_URL_TESTNET = "{}/{}".format(DYDX_V4_INDEXER_REST_BASE_URL, API_VERSION)
 
-# DYDX_V4_WS_URL = "wss://indexer.dydx.trade/{}/ws".format(API_VERSION)
+DYDX_V4_WS_URL_TESTNET = "wss://indexer.dydx.trade/{}/ws".format(API_VERSION)
 DYDX_V4_WS_URL = "wss://indexer.v4testnet.dydx.exchange/{}/ws".format(API_VERSION)
 
 # Public REST Endpoints

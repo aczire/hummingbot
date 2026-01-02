@@ -43,3 +43,34 @@ class DydxV4PerpetualConfigMap(BaseConnectorConfigMap):
 
 
 KEYS = DydxV4PerpetualConfigMap.model_construct()
+
+OTHER_DOMAINS = ["dydx_v4_perpetual_testnet"]
+OTHER_DOMAINS_PARAMETER = {"dydx_v4_perpetual_testnet": "dydx_v4_perpetual_testnet"}
+OTHER_DOMAINS_EXAMPLE_PAIR = {"dydx_v4_perpetual_testnet": "BTC-USDT"}
+OTHER_DOMAINS_DEFAULT_FEES = {"dydx_v4_perpetual_testnet": [0.01, 0.05]}
+
+
+class DydxV4PerpetualTestnetConfigMap(BaseConnectorConfigMap):
+    connector: str = "dydx_v4_perpetual_testnet"
+    dydx_v4_perpetual_testnet_secret_phrase: SecretStr = Field(
+        default=...,
+        json_schema_extra={
+            "prompt": "Enter your dydx v4 testnet secret_phrase(24 words)",
+            "is_secure": True,
+            "is_connect_key": True,
+            "prompt_on_new": True,
+        },
+    )
+    dydx_v4_perpetual_test_net_chain_address: SecretStr = Field(
+        default=...,
+        json_schema_extra={
+            "prompt": "Enter your dydx v4 testnet chain address ( starts with 'dydx' )",
+            "is_secure": True,
+            "is_connect_key": True,
+            "prompt_on_new": True,
+        },
+    )
+    model_config = ConfigDict(title="dydx_v4_perpetual_testnet")
+
+
+KEYS = DydxV4PerpetualTestnetConfigMap.model_construct()
