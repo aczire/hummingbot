@@ -61,7 +61,7 @@ class DydxV4PerpetualTestnetConfigMap(BaseConnectorConfigMap):
             "prompt_on_new": True,
         },
     )
-    dydx_v4_perpetual_test_net_chain_address: SecretStr = Field(
+    dydx_v4_perpetual_testnet_chain_address: SecretStr = Field(
         default=...,
         json_schema_extra={
             "prompt": "Enter your dydx v4 testnet chain address ( starts with 'dydx' )",
