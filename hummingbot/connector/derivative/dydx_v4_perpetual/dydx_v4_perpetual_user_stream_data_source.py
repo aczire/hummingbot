@@ -23,7 +23,7 @@ class DydxV4PerpetualUserStreamDataSource(UserStreamTrackerDataSource):
         self._api_factory: WebAssistantsFactory = api_factory
         self._ws_assistant: Optional[WSAssistant] = None
         self._connector = connector
-        self._domain = connector.domain()
+        self._domain = connector.domain
 
         super().__init__()
 

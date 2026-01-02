@@ -36,7 +36,7 @@ class DydxPerpetualV4Client:
         self._private_key = PrivateKey.from_mnemonic(secret_phrase)
         self._dydx_v4_chain_address = dydx_v4_chain_address
         self._connector = connector
-        self._domain = connector.domain()
+        self._domain = connector.domain
         self._subaccount_num = subaccount_num
         self.transaction_lock = Lock()
         self.number = 0
