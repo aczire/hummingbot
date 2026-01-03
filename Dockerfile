@@ -9,7 +9,8 @@ RUN apt-get update && \
 WORKDIR /home/hummingbot
 
 # Create conda environment
-COPY setup/environment.yml /tmp/environment.yml
+# COPY setup/environment.yml /tmp/environment.yml
+COPY setup/environment_dydx.yml /tmp/environment.yml
 RUN conda env create -f /tmp/environment.yml && \
     conda clean -afy && \
     rm /tmp/environment.yml

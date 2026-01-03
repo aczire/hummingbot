@@ -23,6 +23,7 @@ class DydxV4PerpetualUserStreamDataSource(UserStreamTrackerDataSource):
         self._api_factory: WebAssistantsFactory = api_factory
         self._ws_assistant: Optional[WSAssistant] = None
         self._connector = connector
+        self._domain = connector.domain
 
         super().__init__()
 
@@ -38,9 +39,14 @@ class DydxV4PerpetualUserStreamDataSource(UserStreamTrackerDataSource):
     # ping的回调还没写，不然会断掉
     async def _connected_websocket_assistant(self) -> WSAssistant:
         if self._ws_assistant is None:
-            self.logger().info(f"Connecting to {CONSTANTS.DYDX_V4_WS_URL}")
+            ws_url = (
+                CONSTANTS.DYDX_V4_WS_URL
+                if self._domain == CONSTANTS.DEFAULT_DOMAIN
+                else CONSTANTS.DYDX_V4_WS_URL_TESTNET
+            )
+            self.logger().info(f"Connecting to {ws_url}")
             self._ws_assistant = await self._api_factory.get_ws_assistant()
-            await self._ws_assistant.connect(ws_url=CONSTANTS.DYDX_V4_WS_URL, ping_timeout=CONSTANTS.HEARTBEAT_INTERVAL)
+            await self._ws_assistant.connect(ws_url=ws_url, ping_timeout=CONSTANTS.HEARTBEAT_INTERVAL)
 
             subaccount_id = f"{self._connector._dydx_v4_perpetual_chain_address}/{self._connector.subaccount_id}"
 

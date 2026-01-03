@@ -25,7 +25,8 @@ def public_rest_url(path_url: str, domain: str = CONSTANTS.DEFAULT_DOMAIN) -> st
     :param domain: the dydx_v4 domain to connect to ("exchange" or "us"). The default value is "exchange"
     :return: the full URL to the endpoint
     """
-    return CONSTANTS.DYDX_V4_REST_URL + path_url
+    base_url = CONSTANTS.DYDX_V4_REST_URL if domain == CONSTANTS.DEFAULT_DOMAIN else CONSTANTS.DYDX_V4_REST_URL_TESTNET
+    return base_url + path_url
 
 
 def private_rest_url(path_url: str, domain: str = CONSTANTS.DEFAULT_DOMAIN) -> str:
@@ -35,7 +36,8 @@ def private_rest_url(path_url: str, domain: str = CONSTANTS.DEFAULT_DOMAIN) -> s
     :param domain: the dYdX domain to connect to ("exchange" or "us"). The default value is "exchange"
     :return: the full URL to the endpoint
     """
-    return CONSTANTS.DYDX_V4_REST_URL + path_url
+    base_url = CONSTANTS.DYDX_V4_REST_URL if domain == CONSTANTS.DEFAULT_DOMAIN else CONSTANTS.DYDX_V4_REST_URL_TESTNET
+    return base_url + path_url
 
 
 def build_api_factory(
