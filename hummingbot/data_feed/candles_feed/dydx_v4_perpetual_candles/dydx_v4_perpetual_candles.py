@@ -45,11 +45,11 @@ class DydxV4PerpetualCandlesBase(CandlesBase):
 
     @property
     def candles_url(self):
-        return self.rest_url + CONSTANTS.CANDLES_ENDPOINT
+        return self.rest_url + CONSTANTS.CANDLES_ENDPOINT + "/" + self._ex_trading_pair
 
     @property
     def candles_endpoint(self):
-        return CONSTANTS.CANDLES_ENDPOINT
+        return CONSTANTS.CANDLES_ENDPOINT + "/" + self._ex_trading_pair
 
     @property
     def candles_max_result_per_rest_request(self):
