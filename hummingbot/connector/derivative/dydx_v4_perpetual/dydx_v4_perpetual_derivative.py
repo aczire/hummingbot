@@ -52,7 +52,7 @@ class DydxV4PerpetualDerivative(PerpetualDerivativePyBase):
         self._domain = domain
         self._client_order_id_nonce_provider = NonceCreator.for_microseconds()
 
-        self._tx_client: DydxPerpetualV4Client = self._create_tx_client()
+        self._tx_client_instance: Optional[DydxPerpetualV4Client] = None
 
         self._margin_fractions = {}
         self._position_id = None
@@ -61,6 +61,12 @@ class DydxV4PerpetualDerivative(PerpetualDerivativePyBase):
         self.subaccount_id = 0
 
         super().__init__(balance_asset_limit, rate_limits_share_pct)
+
+    @property
+    def _tx_client(self) -> DydxPerpetualV4Client:
+        if self._tx_client_instance is None:
+            self._tx_client_instance = self._create_tx_client()
+        return self._tx_client_instance
 
     @property
     def name(self) -> str:
