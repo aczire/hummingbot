@@ -57,6 +57,7 @@ class CandlesBase(NetworkBase):
         self._ex_trading_pair = self.get_exchange_trading_pair(trading_pair)
         self._ws_candle_available = asyncio.Event()
         self._ping_timeout = None
+        self._autoping = False
         if interval in self.intervals.keys():
             self.interval = interval
         else:
@@ -368,7 +369,7 @@ class CandlesBase(NetworkBase):
 
     async def _connected_websocket_assistant(self) -> WSAssistant:
         ws: WSAssistant = await self._api_factory.get_ws_assistant()
-        await ws.connect(ws_url=self.wss_url, ping_timeout=self._ping_timeout)
+        await ws.connect(ws_url=self.wss_url, ping_timeout=self._ping_timeout, autoping=self._autoping)
         return ws
 
     @property
