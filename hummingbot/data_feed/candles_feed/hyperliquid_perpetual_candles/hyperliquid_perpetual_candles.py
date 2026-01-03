@@ -27,6 +27,7 @@ class HyperliquidPerpetualCandlesBase(CandlesBase):
         self._base_asset = trading_pair.split("-")[0]
         super().__init__(trading_pair, interval, max_records)
         self._ping_timeout = CONSTANTS.PING_TIMEOUT
+        self._autoping = True
 
     @property
     def name(self):
