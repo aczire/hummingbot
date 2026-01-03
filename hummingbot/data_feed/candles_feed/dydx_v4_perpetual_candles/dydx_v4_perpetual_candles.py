@@ -269,7 +269,10 @@ class DydxV4PerpetualCandlesBase(CandlesBase):
                 candles_row_dict["taker_buy_base_volume"] = 0.0  # Not provided by dYdX
                 candles_row_dict["taker_buy_quote_volume"] = 0.0  # Not provided by dYdX
 
-        return candles_row_dict
+                return candles_row_dict
+
+        # Return None for non-candle messages (subscribed, connected, etc.)
+        return None
 
 
 class DydxV4PerpetualCandles(DydxV4PerpetualCandlesBase):
