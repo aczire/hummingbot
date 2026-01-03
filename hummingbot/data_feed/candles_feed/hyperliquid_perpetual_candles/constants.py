@@ -3,10 +3,13 @@ from bidict import bidict
 from hummingbot.core.api_throttler.data_types import LinkedLimitWeightPair, RateLimit
 
 REST_URL = "https://api.hyperliquid.xyz/info"
+REST_URL_TESTNET = "https://api.hyperliquid-testnet.xyz/info"
+
 HEALTH_CHECK_PAYLOAD = {"type": "meta"}
 CANDLES_ENDPOINT = "candleSnapshot"
 
 WSS_URL = "wss://api.hyperliquid.xyz/ws"
+WSS_URL_TESTNET = "wss://api.hyperliquid-testnet.xyz/ws"
 
 INTERVALS = bidict({
     "1m": "1m",
@@ -26,8 +29,10 @@ INTERVALS = bidict({
 
 MAX_RESULTS_PER_CANDLESTICK_REST_REQUEST = 500
 
-RATE_LIMITS = [
-    RateLimit(REST_URL, limit=1200, time_interval=60, linked_limits=[LinkedLimitWeightPair("raw", 1)])
+RATE_LIMITS = [RateLimit(REST_URL, limit=1200, time_interval=60, linked_limits=[LinkedLimitWeightPair("raw", 1)])]
+
+RATE_LIMITS_TESTNET = [
+    RateLimit(REST_URL_TESTNET, limit=1200, time_interval=60, linked_limits=[LinkedLimitWeightPair("raw", 1)])
 ]
 
 PING_TIMEOUT = 30.0

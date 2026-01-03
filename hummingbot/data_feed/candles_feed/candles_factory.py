@@ -22,6 +22,7 @@ from hummingbot.data_feed.candles_feed.gate_io_perpetual_candles import GateioPe
 from hummingbot.data_feed.candles_feed.gate_io_spot_candles import GateioSpotCandles
 from hummingbot.data_feed.candles_feed.hyperliquid_perpetual_candles.hyperliquid_perpetual_candles import (
     HyperliquidPerpetualCandles,
+    HyperliquidPerpetualTestnetCandles,
 )
 from hummingbot.data_feed.candles_feed.hyperliquid_spot_candles.hyperliquid_spot_candles import HyperliquidSpotCandles
 from hummingbot.data_feed.candles_feed.kraken_spot_candles.kraken_spot_candles import KrakenSpotCandles
@@ -68,6 +69,7 @@ class CandlesFactory:
         "bybit_perpetual": BybitPerpetualCandles,
         "hyperliquid": HyperliquidSpotCandles,
         "hyperliquid_perpetual": HyperliquidPerpetualCandles,
+        "hyperliquid_perpetual_testnet": HyperliquidPerpetualTestnetCandles,
         "dexalot": DexalotSpotCandles,
         "bitmart_perpetual": BitmartPerpetualCandles,
         "btc_markets": BtcMarketsSpotCandles,

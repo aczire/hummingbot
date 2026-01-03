@@ -4,12 +4,17 @@ from typing import Any, Dict, List, Optional
 from hummingbot.core.network_iterator import NetworkStatus
 from hummingbot.core.web_assistant.connections.data_types import RESTMethod
 from hummingbot.data_feed.candles_feed.candles_base import CandlesBase
-from hummingbot.data_feed.candles_feed.hyperliquid_spot_candles import constants as CONSTANTS
+from hummingbot.data_feed.candles_feed.hyperliquid_perpetual_candles import constants as CONSTANTS
 from hummingbot.logger import HummingbotLogger
 
 
-class HyperliquidPerpetualCandles(CandlesBase):
+class HyperliquidPerpetualCandlesBase(CandlesBase):
+    """Base class for Hyperliquid Perpetual candles."""
+
     _logger: Optional[HummingbotLogger] = None
+    _domain: str = "hyperliquid_perpetual"
+    _rest_url: str = None
+    _wss_url: str = None
 
     @classmethod
     def logger(cls) -> HummingbotLogger:
@@ -25,15 +30,15 @@ class HyperliquidPerpetualCandles(CandlesBase):
 
     @property
     def name(self):
-        return f"hyperliquid_perpetual_{self._trading_pair}"
+        return f"{self._domain}_{self._trading_pair}"
 
     @property
     def rest_url(self):
-        return CONSTANTS.REST_URL
+        return self._rest_url
 
     @property
     def wss_url(self):
-        return CONSTANTS.WSS_URL
+        return self._wss_url
 
     @property
     def health_check_url(self):
@@ -143,3 +148,19 @@ class HyperliquidPerpetualCandles(CandlesBase):
     @property
     def _ping_payload(self):
         return CONSTANTS.PING_PAYLOAD
+
+
+class HyperliquidPerpetualCandles(HyperliquidPerpetualCandlesBase):
+    """Hyperliquid Perpetual Mainnet candles."""
+
+    _domain = "hyperliquid_perpetual"
+    _rest_url = CONSTANTS.REST_URL
+    _wss_url = CONSTANTS.WSS_URL
+
+
+class HyperliquidPerpetualTestnetCandles(HyperliquidPerpetualCandlesBase):
+    """Hyperliquid Perpetual Testnet candles."""
+
+    _domain = "hyperliquid_perpetual_testnet"
+    _rest_url = CONSTANTS.REST_URL_TESTNET
+    _wss_url = CONSTANTS.WSS_URL_TESTNET
