@@ -127,20 +127,26 @@ class HyperliquidPerpetualCandlesBase(CandlesBase):
         return payload
 
     def _parse_websocket_message(self, data):
-        candles_row_dict: Dict[str, Any] = {}
+        """
+        Parse WebSocket message from Hyperliquid.
+        Returns a dict with candle data for candle messages, None for other messages.
+        """
         if data is not None and data.get("channel") == "candle":
             candle = data["data"]
-            candles_row_dict["timestamp"] = self.ensure_timestamp_in_seconds(candle["t"])
-            candles_row_dict["open"] = candle["o"]
-            candles_row_dict["low"] = candle["l"]
-            candles_row_dict["high"] = candle["h"]
-            candles_row_dict["close"] = candle["c"]
-            candles_row_dict["volume"] = candle["v"]
-            candles_row_dict["quote_asset_volume"] = 0.
-            candles_row_dict["n_trades"] = candle["n"]
-            candles_row_dict["taker_buy_base_volume"] = 0.
-            candles_row_dict["taker_buy_quote_volume"] = 0.
-            return candles_row_dict
+            return {
+                "timestamp": self.ensure_timestamp_in_seconds(candle["t"]),
+                "open": candle["o"],
+                "low": candle["l"],
+                "high": candle["h"],
+                "close": candle["c"],
+                "volume": candle["v"],
+                "quote_asset_volume": 0.0,
+                "n_trades": candle["n"],
+                "taker_buy_base_volume": 0.0,
+                "taker_buy_quote_volume": 0.0,
+            }
+        # Return None for subscription responses, ping responses, etc.
+        return None
 
     @property
     def _ping_payload(self):
