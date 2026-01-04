@@ -58,10 +58,6 @@ class HyperliquidPerpetualCandlesBase(CandlesBase):
         return CONSTANTS.MAX_RESULTS_PER_CANDLESTICK_REST_REQUEST
 
     @property
-    def rate_limits(self):
-        return CONSTANTS.RATE_LIMITS
-
-    @property
     def intervals(self):
         return CONSTANTS.INTERVALS
 
@@ -158,6 +154,10 @@ class HyperliquidPerpetualCandles(HyperliquidPerpetualCandlesBase):
     _rest_url = CONSTANTS.REST_URL
     _wss_url = CONSTANTS.WSS_URL
 
+    @property
+    def rate_limits(self):
+        return CONSTANTS.RATE_LIMITS
+
 
 class HyperliquidPerpetualTestnetCandles(HyperliquidPerpetualCandlesBase):
     """Hyperliquid Perpetual Testnet candles."""
@@ -165,3 +165,7 @@ class HyperliquidPerpetualTestnetCandles(HyperliquidPerpetualCandlesBase):
     _domain = "hyperliquid_perpetual_testnet"
     _rest_url = CONSTANTS.REST_URL_TESTNET
     _wss_url = CONSTANTS.WSS_URL_TESTNET
+
+    @property
+    def rate_limits(self):
+        return CONSTANTS.RATE_LIMITS_TESTNET
