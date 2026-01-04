@@ -359,6 +359,9 @@ class CandlesBase(NetworkBase):
                 raise
             except ConnectionError as connection_exception:
                 self.logger().warning(f"The websocket connection was closed ({connection_exception})")
+            except ValueError:
+                # Raise the exception to avoid infinite loop in case of invalid subscription
+                self.logger().error(f"Error occurred! Stopping the listener.")
             except Exception:
                 self.logger().exception(
                     "Unexpected error occurred when listening to public klines. Retrying in 1 seconds...",
