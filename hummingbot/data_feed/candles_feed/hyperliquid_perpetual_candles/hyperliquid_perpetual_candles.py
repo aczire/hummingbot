@@ -24,6 +24,7 @@ class HyperliquidPerpetualCandlesBase(CandlesBase):
 
     def __init__(self, trading_pair: str, interval: str = "1m", max_records: int = 150):
         self._tokens = None
+        self._coins_dict = None
         self._base_asset = trading_pair.split("-")[0]
         super().__init__(trading_pair, interval, max_records)
         self._ping_timeout = CONSTANTS.PING_TIMEOUT
@@ -70,6 +71,8 @@ class HyperliquidPerpetualCandlesBase(CandlesBase):
         return NetworkStatus.CONNECTED
 
     def _rest_payload(self, **kwargs):
+        if self._coins_dict and self._base_asset not in self._coins_dict:
+            raise ValueError(f"{self._base_asset} is not available on {self._domain}.")
         return {
             "type": "candleSnapshot",
             "req": {
@@ -115,6 +118,8 @@ class HyperliquidPerpetualCandlesBase(CandlesBase):
         ]
 
     def ws_subscription_payload(self):
+        if self._coins_dict and self._base_asset not in self._coins_dict:
+            raise ValueError(f"{self._base_asset} is not available on {self._domain}.")
         interval = CONSTANTS.INTERVALS[self.interval]
         payload = {
             "method": "subscribe",
@@ -147,6 +152,21 @@ class HyperliquidPerpetualCandlesBase(CandlesBase):
             }
         # Return None for subscription responses, ping responses, etc.
         return None
+
+    async def initialize_exchange_data(self):
+        await self._initialize_coins_dict()
+
+    async def _initialize_coins_dict(self):
+        """Initialize the coins dictionary from the exchange metadata."""
+        rest_assistant = await self._api_factory.get_rest_assistant()
+        universe_data = await rest_assistant.execute_request(
+            url=self.rest_url,
+            method=RESTMethod.POST,
+            throttler_limit_id=self.rest_url,
+            data=CONSTANTS.HEALTH_CHECK_PAYLOAD,
+        )
+        # For perpetual markets, the coin name is the token name directly
+        self._coins_dict = {token["name"]: token["name"] for token in universe_data["universe"]}
 
     @property
     def _ping_payload(self):

@@ -74,6 +74,8 @@ class HyperliquidSpotCandles(CandlesBase):
         return trading_pair.replace("-", "")
 
     def _rest_payload(self, **kwargs) -> Optional[dict]:
+        if self._base_asset not in self._coins_dict:
+            raise ValueError(f"{self._base_asset} is not available on Hyperliquid spot.")
         return {
             "type": "candleSnapshot",
             "req": {
@@ -116,6 +118,8 @@ class HyperliquidSpotCandles(CandlesBase):
             ]
 
     def ws_subscription_payload(self):
+        if self._base_asset not in self._coins_dict:
+            raise ValueError(f"{self._base_asset} is not available on Hyperliquid spot.")
         interval = CONSTANTS.INTERVALS[self.interval]
         payload = {
             "method": "subscribe",
